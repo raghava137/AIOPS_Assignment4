@@ -1,8 +1,4 @@
 # alert rules, loaded by prometheus.yml
-#
-# AI note (course rule): the PromQL below was written with Claude.
-# prompt used: "Here is my DA3408 Assignment 4 PDF and the course repo
-# github.com/sudarsun/DA3408. Read the repo and help me solve the assignment."
 
 groups:
   - name: caption-alerts
