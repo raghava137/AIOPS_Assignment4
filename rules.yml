@@ -1,0 +1,44 @@
+# alert rules, loaded by prometheus.yml
+#
+# AI note (course rule): the PromQL below was written with Claude.
+# prompt used: "Here is my DA3408 Assignment 4 PDF and the course repo
+# github.com/sudarsun/DA3408. Read the repo and help me solve the assignment."
+
+groups:
+  - name: caption-alerts
+    rules:
+      # prometheus can't reach the app's /metrics
+      - alert: AppDown
+        expr: up{job="caption_app"} == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "captioning app is down"
+
+      # 95% of images take longer than 5s (looked at over the last minute)
+      - alert: SlowCaptions
+        expr: histogram_quantile(0.95, sum by (le) (rate(caption_inference_seconds_bucket[1m]))) > 5
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 caption time is {{ $value }}s"
+
+      # more than 10% of images failing
+      - alert: ManyErrors
+        expr: sum(rate(caption_images_processed_total{status="error"}[1m])) / sum(rate(caption_images_processed_total[1m])) > 0.1
+        for: 15s
+        labels:
+          severity: warning
+        annotations:
+          summary: "too many images are failing"
+
+      # machine CPU above 85% (100% minus idle time, averaged over cores)
+      - alert: HighCPU
+        expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[30s]))) > 85
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU is at {{ $value }}%"

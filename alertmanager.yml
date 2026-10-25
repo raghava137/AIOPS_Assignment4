@@ -1,0 +1,11 @@
+# same as Monitoring/sample_alertmanager.yml from the course repo
+route:
+  group_by: ['alertname']
+  group_wait: 5s
+  group_interval: 5s
+  repeat_interval: 30s
+  receiver: 'web.hook'
+receivers:
+  - name: 'web.hook'
+    webhook_configs:
+      - url: 'https://webhook.site/PUT-YOUR-ID-HERE'  # get your own url from webhook.site
