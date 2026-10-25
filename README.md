@@ -8,7 +8,7 @@ The app exposes its metrics on port 18000. Prometheus scrapes the app and node_e
 machine's CPU, RAM, disk and network numbers). Alerts are sent to Alertmanager, and Grafana shows
 everything on one dashboard.
 
-How the pieces connect:
+How they are:
 
 ```
 streamlit app (port 8501, metrics on 18000) --+
@@ -30,7 +30,7 @@ I ran everything on an Ubuntu VM in UTM.
 - `dashboard.json` - the Grafana dashboard export.
 
 
-## Setup (only once)
+## Setup
 
 ```bash
 sudo apt update
@@ -143,7 +143,7 @@ Total time spent divided by number of uploads. If 4 uploads took 10s in total, t
 ```
 histogram_quantile(0.95, sum by (le) (rate(caption_inference_seconds_bucket[1m])))
 ```
-Example by hand: 20 images in the last minute, and the cumulative bucket counts are le=1: 8, le=1.5: 15,
+For example: 20 images in the last minute, and the cumulative bucket counts are le=1: 8, le=1.5: 15,
 le=2: 19, le=3: 20. The 95th percentile is image number 0.95 x 20 = 19. That falls in the 1.5 to 2 bucket
 (counts 15 to 19), so p95 = 1.5 + (19 - 15) / (19 - 15) x 0.5 = 2.0 seconds.
 
