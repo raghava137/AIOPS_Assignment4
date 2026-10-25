@@ -188,11 +188,3 @@ Defined in `rules.yml`:
 
 To test: stop the app with Ctrl+C. After about 10 seconds `AppDown` shows up on the alerts page and a
 request arrives on the webhook.site page.
-
-
-## AI disclosure
-
-I used Claude to help write the first version of the app, the Prometheus config files and the PromQL
-queries. The prompt is written at the top of `rules.yml`.
-
-<add one or two lines here about what you checked, changed and tested yourself>
